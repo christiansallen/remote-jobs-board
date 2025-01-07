@@ -1,5 +1,5 @@
 // import { dummyData } from "@/data/jobs";
-import { JobCard } from "./JobCard";
+// import { JobCard } from "./JobCard";
 
 export const JobsList = () => {
   //   const firstHundredJobs = dummyData.jobs.slice(0, 5);
