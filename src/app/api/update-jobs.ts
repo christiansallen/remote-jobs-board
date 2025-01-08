@@ -1,5 +1,6 @@
-import { db } from "../../drizzle";
+import { db } from "../../drizzle/index";
 import { jobsTable } from "../../drizzle/schema";
+import { Job } from "@/types/job";
 
 const fetchAndUpdateJobs = async (req, res) => {
   if (
@@ -9,26 +10,27 @@ const fetchAndUpdateJobs = async (req, res) => {
   }
 
   try {
-    // Fetch new job data from your source API
     const newJobs = await fetch("https://api.remotive.io/remote-jobs").then(
       (res) => res.json()
     );
 
-    // Upsert new jobs into the database
     for (const job of newJobs.jobs) {
-      await db.insert(jobsTable).values({
+      const newJob: Job = {
+        job_id: job.id,
         title: job.title,
         company_name: job.company_name,
-        company_logo: job.company_logo,
-        candidate_required_location: job.candidate_required_location,
-        category: job.category,
+        company_logo: job.company_logo ?? "",
+        candidate_required_location: job.candidate_required_location ?? null,
+        category: job.category ?? null,
         description: job.description,
-        job_type: job.job_type,
-        publication_date: job.publication_date,
-        salary: job.salary,
+        job_type: job.job_type ?? null,
+        publication_date: job.publication_date ?? null,
+        salary: job.salary ?? null,
         tags: job.tags || [],
         url: job.url,
-      });
+      };
+
+      await db.insert(jobsTable).values(newJob);
     }
 
     res.status(200).json({ message: "Jobs updated successfully!" });

@@ -1,0 +1,1 @@
+ALTER TABLE "jobs" ALTER COLUMN "company_logo" DROP NOT NULL;

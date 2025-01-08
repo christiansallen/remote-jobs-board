@@ -1,14 +1,14 @@
 export type Job = {
-  id: number;
+  job_id: number;
   title: string;
   company_name: string;
-  company_logo?: string | null;
-  url: string;
-  tags: string[];
-  salary?: string | null;
-  publication_date: string;
-  job_type: string;
+  company_logo?: string;
+  candidate_required_location?: string;
+  category?: string;
   description: string;
-  category?: string | null;
-  candidate_required_location?: string | null;
+  job_type?: string;
+  publication_date?: string;
+  salary?: string;
+  tags?: string[];
+  url: string;
 };
