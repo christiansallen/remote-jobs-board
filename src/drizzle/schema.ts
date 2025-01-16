@@ -1,4 +1,4 @@
-import { integer, pgTable, varchar } from "drizzle-orm/pg-core";
+import { integer, pgTable, varchar, text } from "drizzle-orm/pg-core";
 
 export const jobsTable = pgTable("jobs", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
@@ -7,7 +7,7 @@ export const jobsTable = pgTable("jobs", {
   category: varchar({ length: 255 }),
   company_logo: varchar({ length: 255 }),
   company_name: varchar({ length: 255 }).notNull(),
-  description: varchar({ length: 255 }).notNull(),
+  description: text().notNull(),
   job_type: varchar({ length: 255 }),
   publication_date: varchar({ length: 255 }),
   salary: varchar({ length: 255 }),

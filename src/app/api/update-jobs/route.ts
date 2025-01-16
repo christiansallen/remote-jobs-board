@@ -1,16 +1,16 @@
-import { db } from "../../drizzle/index";
-import { jobsTable } from "../../drizzle/schema";
+import { NextResponse } from "next/server";
+import { db } from "../../../drizzle/index";
+import { jobsTable } from "../../../drizzle/schema";
 import { Job } from "@/types/job";
 
-const fetchAndUpdateJobs = async (req, res) => {
-  if (
-    req.headers.get("Authorization") !== `Bearer ${process.env.CRON_SECRET}`
-  ) {
-    return res.status(401).end("Unauthorized");
+export async function POST(req: Request) {
+  const authorizationHeader = req.headers.get("Authorization");
+  if (authorizationHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   try {
-    const newJobs = await fetch("https://api.remotive.io/remote-jobs").then(
+    const newJobs = await fetch("https://remotive.com/api/remote-jobs").then(
       (res) => res.json()
     );
 
@@ -33,11 +33,15 @@ const fetchAndUpdateJobs = async (req, res) => {
       await db.insert(jobsTable).values(newJob);
     }
 
-    res.status(200).json({ message: "Jobs updated successfully!" });
+    return NextResponse.json(
+      { message: "Jobs updated successfully!" },
+      { status: 200 }
+    );
   } catch (error) {
     console.error("Error updating jobs:", error);
-    res.status(500).json({ error: "Failed to update jobs" });
+    return NextResponse.json(
+      { error: "Failed to update jobs" },
+      { status: 500 }
+    );
   }
-};
-
-export default fetchAndUpdateJobs;
+}

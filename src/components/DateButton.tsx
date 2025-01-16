@@ -1,6 +1,4 @@
-export const CardButton = ({ date }: { date: string }) => {
-  console.log("date: ", date);
-
+export const DateButton = ({ date }: { date: string }) => {
   const populatedText = () => {
     const currentDate = new Date();
     const givenDate = new Date(date);

@@ -1,14 +1,15 @@
 // import { dummyData } from "@/data/jobs";
-// import { JobCard } from "./JobCard";
+import { JobCard } from "./JobCard";
+import { fetchJobs } from "@/services/jobsService";
 
-export const JobsList = () => {
-  //   const firstHundredJobs = dummyData.jobs.slice(0, 5);
-  //   console.log("firstHundredsJobs", firstHundredJobs);
-  //   return (
-  //     <div>
-  //       {firstHundredJobs.map((job) => (
-  //         <JobCard key={job.id} job={job} />
-  //       ))}
-  //     </div>
-  //   );
+export const JobsList = async () => {
+  const jobs = await fetchJobs(5);
+  console.log("jobs", jobs);
+  return (
+    <div>
+      {jobs.map((job) => (
+        <JobCard key={job.id} job={job} />
+      ))}
+    </div>
+  );
 };

@@ -1,9 +1,17 @@
+"use client";
+
+import { useState } from "react";
 import { Job } from "@/types/job";
 import { JobTags } from "./JobTags";
-import { CardButton } from "./CardButton";
+import { DateButton } from "./DateButton";
+import { ApplyButton } from "./ApplyButton";
 
 export const JobCard = ({ job }: { job: Job }) => {
-  console.log("job: ", job);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => setIsHovered(true);
+  const handleMouseLeave = () => setIsHovered(false);
+
   const jobTags = [
     job?.category,
     job?.salary,
@@ -11,7 +19,11 @@ export const JobCard = ({ job }: { job: Job }) => {
   ].filter((tag) => tag !== null && tag !== undefined);
 
   return (
-    <div className=" bg-neutral min-w-full my-2 shadow-xl cursor-pointer">
+    <div
+      className="bg-neutral min-w-full my-2 shadow-xl cursor-pointer hover:bg-secondary"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       <div className="flex flex-row justify-between items-center p-4">
         <div className="flex flex-row items-center">
           <img
@@ -28,7 +40,11 @@ export const JobCard = ({ job }: { job: Job }) => {
           </div>
         </div>
         <div className="justify-end">
-          <CardButton date={job.publication_date} />
+          {isHovered ? (
+            <ApplyButton url={job.url} />
+          ) : (
+            <DateButton date={job.publication_date} />
+          )}
         </div>
       </div>
     </div>

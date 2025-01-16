@@ -1,6 +1,4 @@
 export const JobTags = ({ tags }: { tags: string[] }) => {
-  console.log("tags", tags);
-
   return (
     <span className="flex flex-row">
       {tags.map(
